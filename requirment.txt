@@ -1,4 +1,0 @@
-Softwares needed.
-1.	Nodejs installed
-2.	Mysql installed they must know username, password 
-3.	Reference zip file should be provided to them.

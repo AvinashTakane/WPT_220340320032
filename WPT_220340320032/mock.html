@@ -1,0 +1,79 @@
+<!-- Structure -->
+<html>
+
+<body>
+	Book id &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="id" placeholder="bookid"/>
+	<span id="msg">message(what happened book added or not)</span>
+	<br />
+	Book name <input type="text" id="name" placeholder="bookname"/>
+	<br />
+	Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="price" placeholder="price"/>
+	<br /><br />
+	<button id="update">update book</button>
+</body>
+<!-- Logic Start from here -->
+<script src="jquery-3.5.1.min.js"></script>
+<script>//our scrip will come here 
+	$(() => {
+		console.log("no more sins");
+		$("#id").blur(() => {
+			let x = $("#id").val();
+			let object = {
+				data: { id: x },
+				url: "http://localhost:8081/getItem",
+				type: 'get',
+				dataType: "json",
+				success: (output) => {
+					console.log(output);
+					if (output.status) {
+						$("#name").val(output.row.bookname);
+						$("#price").val(output.row.price);
+						$("#msg").text("bookid is found");
+					}
+					else {
+						$("#id").val("");
+						$("#name").val("");
+						$("#price").val("");
+						$("#msg").text("bookid is not found");
+					}
+				},
+				error: (error) => {
+					console.log("Error from server: ", error);
+					$("#msg").text("Couden't connect to server");
+				}
+			};
+			//console.log("jquery works");
+			// alert("object")
+			$.ajax(object);
+		});
+		//------------------------Update Start----------
+		$("#update").click(() => {
+			let input = { id: $("#id").val(), price: $("#price").val() };
+			let object1 = {
+				data: input,
+				url: "http://localhost:8081/update",
+				type: 'get',
+				dataType: "json",
+				success: (output) => {
+					console.log(output);
+					if (output.status) {
+						$("#price").val("");
+						$("#msg").text("update successfully");
+					}
+					else {
+						$("#msg").text("Information not found");
+					}
+				},
+				error: (error) => {
+					console.log("Error from server: ", error);
+					$("#msg").text("Couden't connect to server");
+				}
+			};
+			//console.log("jquery works");
+			// alert("object")
+			$.ajax(object1);
+		});
+	});
+</script>
+
+</html>
